@@ -1,0 +1,7 @@
+<div class="list-group">
+        {% for category in categories %}
+         <a href="{% url "courses_by_category" category.slug %}" class="list-gruop-item list-gruop-item-action">{{category.name|title}}</a>
+        {% endfor %}
+      
+       
+      </div>
