@@ -6,7 +6,7 @@ class Course(models.Model):
     description = models.TextField()
     imageUrl=models.CharField(max_length=50, blank=False)
     date = models.DateField(auto_now_add=True)
-    isActive = models.BooleanField(default=True)
+    isActives = models.BooleanField(default=True)
     slug=models.SlugField(default="",null=False,unique=True,db_index=True)
 
     def save(self, *args, **kwargs):
