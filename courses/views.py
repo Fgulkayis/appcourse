@@ -14,7 +14,7 @@ db={
         {
         "title":"javascript kursu",
         "description":"javascript kurs açıklaması",
-        "imageUrl":"",
+        "imageUrl":"2.jpg",
         "slug":"javascript-kursu",
          "date": datetime.now(),
          "isActive":True,
@@ -23,7 +23,7 @@ db={
          {
          "title":"python kursu",
         "description":"python kurs açıklaması",
-        "imageUrl":"",
+        "imageUrl":"1.jpg",
         "slug":"python-kursu",
          "date": date(2022,9,10),
          "isActive":True,
@@ -32,7 +32,7 @@ db={
          {   
         "title":"web-geliştirme kursu",
         "description":"web geliştirme kurs açıklaması",
-        "imageUrl":"",
+        "imageUrl":"3.jpg",
         "slug":"web-gelistirme-kursu",
          "date": date(2022,10,10),
          "isActive":True,
@@ -43,7 +43,6 @@ db={
     
 }
 def index(request):
-   
     kurslar=Course.objects.all()
     kategoriler=Category.objects.all()
     return render(request,'courses/index.html',{
