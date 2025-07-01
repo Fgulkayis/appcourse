@@ -45,41 +45,30 @@ db={
 def index(request):
     kurslar=Course.objects.all()
     kategoriler=Category.objects.all()
+
     return render(request,'courses/index.html',{
         'categories':kategoriler,
         'courses':kurslar
 
     })
-def details(request,kurs_id):
+def details(request,slug):
     # try:
     #   course=Course.objects.get(pk=kurs_id)
     # except:
     #     raise Http404()
-    course=get_object_or_404(Course,pk=kurs_id)
+    course=get_object_or_404(Course,slug=slug)
     context={
         "course":course
     }
     
     return render(request,'courses/details.html',context)
 
-def getCoursesByCategory(request,category_name): 
-    try:
-
-       category_text=data[category_name];
-       print(category_text)
-       return render(request,"courses/kurslar.html",{
-           'category':category_name,
-           'category_text':category_text
-       })  
-    except Exception as e:
-        return HttpResponseNotFound("yanlış kategori seçimi",e)
-
-def getCoursesByCategoryId(request,category_id):
-    category_list=list(data.keys())
-    if(category_id > len(category_list)):
-        return HttpResponseNotFound("yanlış kategori seçimi")
-    category_name=category_list[category_id -1]
-    redirect_url=reverse('courses_by_category',args=[category_name])
-
-
-    return redirect(redirect_url)
+def getCoursesByCategory(request,slug):
+    kurslar=Course.objects.filter(category__slug=slug, isActive=True)
+    kategoriler=Category.objects.all()
+    
+    return render(request,'courses/index.html',{
+        'categories':kategoriler,
+        'courses':kurslar,
+        'seciliKategori':slug
+    })
