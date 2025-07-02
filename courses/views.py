@@ -1,20 +1,31 @@
 from datetime import date,datetime
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from .models import Course,Category
 from django.core.paginator import Paginator,PageNotAnInteger,EmptyPage
 # Create your views here.
+def search(request):
+    #print(request.GET) talebin içindeki bilgiyi  servera yazdırırkurslar=Course.objects.all()
+    if "q" in request.GET and request.GET["q"] != "" :
+       q=request.GET["q"]
+       kurslar=Course.objects.filter(isActive=True,title__contains=q).order_by("date")
+       kategoriler=Category.objects.all()
 
-
+    else:
+        return redirect("/kurslar")
+    
+    return render(request,'courses/search.html', {
+        'categories':kategoriler,
+        'courses':kurslar
+        
+    })
 def index(request):
-    kurslar=Course.objects.all()
+    kurslar=Course.objects.filter(isActive=1,isHome=1)
     kategoriler=Category.objects.all()
 
-    paginator = Paginator(kurslar, 2)  # Her sayfada 2 kurs
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+
     return render(request,'courses/index.html',{
         'categories':kategoriler,
-        'page_obj':page_obj
+        'courses':kurslar
 
     })
 def details(request,slug):
@@ -38,7 +49,7 @@ def getCoursesByCategory(request,slug):
     page_number=request.GET.get('page') 
     
     page_obj = paginator.get_page(page_number)
-    return render(request,'courses/index.html', {
+    return render(request,'courses/list.html', {
         'categories':kategoriler,
         'page_obj':page_obj,
         'seciliKategori':slug
