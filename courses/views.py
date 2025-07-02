@@ -18,6 +18,9 @@ def search(request):
         'courses':kurslar
         
     })
+def create_course(request):
+    return render(request,"courses/create-course.html")
+
 def index(request):
     kurslar=Course.objects.filter(isActive=1,isHome=1)
     kategoriler=Category.objects.all()

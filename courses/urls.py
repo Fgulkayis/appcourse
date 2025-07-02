@@ -8,6 +8,7 @@ from . import views   #nokta dediğimizde aynı dizinde olduğumuzu kastederiz
 urlpatterns = [  #url kalıbı
      path('',views.index, name="index"),
      path('search',views.search ,name="search"),
+     path('create-course',views.create_course ,name="create_course"),
      path('kurslar/<slug:slug>',views.details,name='course_details'),   
      path('kategori/<slug:slug>',views.getCoursesByCategory, name='courses_by_category'),
      
