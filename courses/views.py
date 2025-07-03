@@ -33,6 +33,21 @@ def create_course(request):
        if isHome == "on":
            isHome= True
 
+
+           error=False
+           msg=""
+
+       if title == "":
+           error=True
+           msg += "Title alanı zorunludur"
+           
+       if len(title) < 5:
+           error=True
+           msg += "Title için en az 5 karakter girmelisiniz "
+
+       if error:
+            return render(request,"courses/crate-course.html",{"error": True,"msg":msg})
+    
        kurs=Course(title=title,description=description,imageUrl=imageUrl,slug=slug,isActive=isActive,isHome=isHome)
        kurs.save()
        return redirect("/kurslar")
