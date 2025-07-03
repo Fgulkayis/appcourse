@@ -1,10 +1,9 @@
 from datetime import date,datetime
-from django.shortcuts import get_object_or_404, redirect, render
-
+from django.shortcuts import get_object_or_404, redirect,render
 from courses.forms import CourseCrateForm
 from .models import Course,Category
 from django.core.paginator import Paginator,PageNotAnInteger,EmptyPage
-# Create your views here.
+# Create your views here. 
 def search(request):
     #print(request.GET) talebin içindeki bilgiyi  servera yazdırırkurslar=Course.objects.all()
     if "q" in request.GET and request.GET["q"] != "" :
