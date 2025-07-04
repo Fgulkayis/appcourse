@@ -62,15 +62,16 @@ def course_delete(request,id):
 
 def upload(request):
    if request.method == "POST":
-      uploaded_image=request.FILES['image']
-      handle_uploaded_files(uploaded_image)
+      uploaded_images=request.FILES.getlist("images")
+      for file in uploaded_images:        
+        handle_uploaded_files(file)
       return render(request, "courses/success.html")
    return render(request,"courses/upload.html")
    
 def handle_uploaded_files(file):
    number = random.randint(1,99999)
-   filename,file_extentions =os.path.splitext(file.name)
-   name= filename + "_" + str(number) + file_extentions
+   filename,file_extention =os.path.splitext(file.name)
+   name= filename + "_" + str(number) +file_extention
    with open("temp/" + name ,"wb+") as destination:
       for chunk in file.chunks():
          destination.write(chunk)
