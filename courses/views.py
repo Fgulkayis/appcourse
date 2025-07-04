@@ -30,6 +30,17 @@ def create_course(request):
      form = CourseCreateForm()     
     return render(request,"courses/create-course.html",{"form":form})
 
+def course_list(request):
+    kurslar=Course.objects.all()
+    return render(request,'courses/course-list.html',{
+        'courses':kurslar
+    })
+
+def course_edit(reques,id):
+   
+  pass
+
+
 def index(request):
     kurslar=Course.objects.filter(isActive=1,isHome=1)
     kategoriler=Category.objects.all()
