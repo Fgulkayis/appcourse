@@ -48,6 +48,14 @@ def course_edit(request,id):
 
    return render(request, "courses/edit-course.html",{ "form":form ,"course":course})
 
+def course_delete(request,id):
+   course= get_object_or_404(Course,pk=id)
+
+   if request.method ==  "POST":
+     course.delete()
+     return redirect("course_list")
+   return render(request,"courses/course-delete.html",{'course':course})
+   
 def index(request):
     kurslar=Course.objects.filter(isActive=1,isHome=1)
     kategoriler=Category.objects.all()
