@@ -2,7 +2,7 @@ from datetime import date,datetime
 import os
 import random
 from django.shortcuts import get_object_or_404, redirect,render
-from courses.forms import CourseCreateForm, CourseEditForm
+from courses.forms import CourseCreateForm, CourseEditForm, uploadForm
 from .models import Course,Category
 from django.core.paginator import Paginator
 
@@ -62,11 +62,15 @@ def course_delete(request,id):
 
 def upload(request):
    if request.method == "POST":
-      uploaded_images=request.FILES.getlist("images")
-      for file in uploaded_images:        
-        handle_uploaded_files(file)
-      return render(request, "courses/success.html")
-   return render(request,"courses/upload.html")
+      form = uploadForm(request.POST,request.FILES)
+
+      if form.is_valid():
+        uploaded_image=request.FILES["image"]  
+        handle_uploaded_files(uploaded_image)
+        return render(request, "courses/success.html")
+   else:
+      form=uploadForm()
+   return render(request,"courses/upload.html",{"form":form})
    
 def handle_uploaded_files(file):
    number = random.randint(1,99999)
@@ -75,6 +79,7 @@ def handle_uploaded_files(file):
    with open("temp/" + name ,"wb+") as destination:
       for chunk in file.chunks():
          destination.write(chunk)
+
 
 def index(request):
     kurslar=Course.objects.filter(isActive=1,isHome=1)
