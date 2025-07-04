@@ -1,6 +1,6 @@
 from datetime import date,datetime
 from django.shortcuts import get_object_or_404, redirect,render
-from courses.forms import CourseCreateForm
+from courses.forms import CourseCreateForm, CourseEditForm
 from .models import Course,Category
 from django.core.paginator import Paginator,PageNotAnInteger,EmptyPage
 # Create your views here. 
@@ -36,10 +36,17 @@ def course_list(request):
         'courses':kurslar
     })
 
-def course_edit(reques,id):
-   
-  pass
+def course_edit(request,id):
+   course= get_object_or_404(Course,pk=id)
+ 
+   if request.method == "POST":
+      form= CourseEditForm(request.POST,instance=course)
+      form.save()
+      return redirect("course_list")
+   else:
+      form=CourseEditForm(instance=course)
 
+   return render(request, "courses/edit-course.html",{ "form":form ,"course":course})
 
 def index(request):
     kurslar=Course.objects.filter(isActive=1,isHome=1)

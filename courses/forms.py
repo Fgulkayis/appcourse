@@ -15,7 +15,7 @@ from courses.models import Course
 class CourseCreateForm(forms.ModelForm):
     class Meta:
         model = Course
-        fields = ('title','description','imageUrl','slug',)
+        fields = ('title','description','imageUrl','slug','categories','isActive')
         labels = {
             'title':"Kurs Başlığı",
             'description':"Açıklama",
@@ -25,6 +25,32 @@ class CourseCreateForm(forms.ModelForm):
             "description": forms.Textarea(attrs={"class":"form-control"}),
             "imageUrl": forms.TextInput(attrs={"class":"form-control"}),
             "slug": forms.TextInput(attrs={"class":"form-control"}),
+           
+           
+        }
+        error_messages ={
+            "title":{
+                "required":"kurs başlığı girmelisiniz.",
+                "max_length":"maksimum 50 karakter girmelisiniz"
+            },
+            "description":{
+                "required":"kurs açıklaması gereklidir",
+            }
+        }
+class CourseEditForm(forms.ModelForm):
+    class Meta:
+        model = Course
+        fields = ('title','description','imageUrl','slug',"isActive")
+        labels = {
+            'title':"Kurs Başlığı",
+            'description':"Açıklama",
+        }
+        widgets = {
+            "title": forms.TextInput(attrs={"class":"form-control"}),
+            "description": forms.Textarea(attrs={"class":"form-control"}),
+            "imageUrl": forms.TextInput(attrs={"class":"form-control"}),
+            "slug": forms.TextInput(attrs={"class":"form-control"}),
+             "categories":forms.SelectMultiple(attrs={"class":"form-control"}),
         }
         error_messages ={
             "title":{
