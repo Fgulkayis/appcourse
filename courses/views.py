@@ -55,6 +55,16 @@ def course_delete(request,id):
      course.delete()
      return redirect("course_list")
    return render(request,"courses/course-delete.html",{'course':course})
+
+
+def upload(request):
+   if request.method == "POST":
+      uploaded_image=request.FILES['image']
+      print(uploaded_image.name)
+      print(uploaded_image.size)
+      print(uploaded_image.content_type)
+      return render(request, "courses/success.html")
+   return render(request,"courses/upload.html")
    
 def index(request):
     kurslar=Course.objects.filter(isActive=1,isHome=1)
