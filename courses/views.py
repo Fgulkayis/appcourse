@@ -1,8 +1,11 @@
 from datetime import date,datetime
+import os
+import random
 from django.shortcuts import get_object_or_404, redirect,render
 from courses.forms import CourseCreateForm, CourseEditForm
 from .models import Course,Category
-from django.core.paginator import Paginator,PageNotAnInteger,EmptyPage
+from django.core.paginator import Paginator
+
 # Create your views here. 
 def search(request):
     #print(request.GET) talebin içindeki bilgiyi  servera yazdırırkurslar=Course.objects.all()
@@ -60,12 +63,18 @@ def course_delete(request,id):
 def upload(request):
    if request.method == "POST":
       uploaded_image=request.FILES['image']
-      print(uploaded_image.name)
-      print(uploaded_image.size)
-      print(uploaded_image.content_type)
+      handle_uploaded_files(uploaded_image)
       return render(request, "courses/success.html")
    return render(request,"courses/upload.html")
    
+def handle_uploaded_files(file):
+   number = random.randint(1,99999)
+   filename,file_extentions =os.path.splitext(file.name)
+   name= filename + "_" + str(number) + file_extentions
+   with open("temp/" + name ,"wb+") as destination:
+      for chunk in file.chunks():
+         destination.write(chunk)
+
 def index(request):
     kurslar=Course.objects.filter(isActive=1,isHome=1)
     kategoriler=Category.objects.all()
