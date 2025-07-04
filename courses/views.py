@@ -1,6 +1,6 @@
 from datetime import date,datetime
 from django.shortcuts import get_object_or_404, redirect,render
-from courses.forms import CourseCrateForm
+from courses.forms import CourseCreateForm
 from .models import Course,Category
 from django.core.paginator import Paginator,PageNotAnInteger,EmptyPage
 # Create your views here. 
@@ -21,18 +21,13 @@ def search(request):
     })
 def create_course(request):
     if request.method == "POST":
-     form= CourseCrateForm(request.POST)
+     form= CourseCreateForm(request.POST)
 
      if form.is_valid():
-         kurs=Course(
-             title=form.cleaned_data["title"],
-             description=form.cleaned_data["description"],
-             imageUrl=form.cleaned_data["imageUrl"],
-             slug=form.cleaned_data["slug"])
-         kurs.save()
-         return redirect("/kurslar")
+        form.save()
+        return redirect("/kurslar")
     else:
-     form = CourseCrateForm()     
+     form = CourseCreateForm()     
     return render(request,"courses/create-course.html",{"form":form})
 
 def index(request):
