@@ -3,7 +3,7 @@ import os
 import random
 from django.shortcuts import get_object_or_404, redirect,render
 from courses.forms import CourseCreateForm, CourseEditForm, uploadForm
-from .models import Course,Category
+from .models import Course,Category, uploadModel
 from django.core.paginator import Paginator
 
 # Create your views here. 
@@ -65,21 +65,14 @@ def upload(request):
       form = uploadForm(request.POST,request.FILES)
 
       if form.is_valid():
-        uploaded_image=request.FILES["image"]  
-        handle_uploaded_files(uploaded_image)
+        
+        model= uploadModel(image=request.FILES["image"])
+        model.save()
         return render(request, "courses/success.html")
    else:
       form=uploadForm()
    return render(request,"courses/upload.html",{"form":form})
    
-def handle_uploaded_files(file):
-   number = random.randint(1,99999)
-   filename,file_extention =os.path.splitext(file.name)
-   name= filename + "_" + str(number) +file_extention
-   with open("temp/" + name ,"wb+") as destination:
-      for chunk in file.chunks():
-         destination.write(chunk)
-
 
 def index(request):
     kurslar=Course.objects.filter(isActive=1,isHome=1)
