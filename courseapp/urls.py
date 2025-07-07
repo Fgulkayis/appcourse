@@ -16,12 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('kurslar/', include('courses.urls')), #courses uygulaması altındaki urls erişimi
     path('',include('pages.urls') ), #pages uygulaması altındaki urls erişimi
     path('admin/', admin.site.urls),
-]
+
+]  +static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 #client/ kullanıcı ile ilgili sayfalardır veya tırnak içine boş bir link bıraktığımızda uygulamaın anasayfasına gediğimizde coursesdaki url'ler çağırılıyor.
 
 #coursesapp  altında courses ve pages uygulamlarını barındırır
