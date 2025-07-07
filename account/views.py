@@ -3,8 +3,8 @@ from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.models import User
 # Create your views here.
 def user_login(request):
-    if request.user.is_authenticated:  #kullanıcının login olup olmadığını kontrol eder
-       return redirect("index")
+    if request.user.is_authenticated and "next" in request.GET:  #kullanıcının login olup olmadığını kontrol eder
+       return render(request,"account/login.html", {"error":"yetkiniz yok. "})
     if request.method == "POST":
       username = request.POST["username"]
       password = request.POST["password"]
@@ -13,7 +13,11 @@ def user_login(request):
 
       if user is not None:
          login(request,user)
-         return redirect("index")
+         nextUrl=request.GET.get("next",None)
+         if nextUrl is None:
+            return redirect("index")
+         else:
+            return redirect(nextUrl)
       else:
          return render(request,"account/login.html", {"error":"username ya da parola yanlış"})
     else:
