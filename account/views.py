@@ -2,13 +2,15 @@ from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django.contrib.auth.forms import AuthenticationForm
+from account.forms import loginUserForm
+
+
 # Create your views here.
 def user_login(request):
  if request.user.is_authenticated and "next" in request.GET:  #kullanıcının login olup olmadığını kontrol eder
        return render(request,"account/login.html", {"error":"yetkiniz yok. "})
  if request.method == "POST":
-      form = AuthenticationForm(request,data=request.POST)
+      form = loginUserForm(request,data=request.POST)
       if form.is_valid():
          username = form.cleaned_data.get("username")
          password = form.cleaned_data.get("password")
@@ -28,7 +30,7 @@ def user_login(request):
       else:
          return render(request,"account/login.html", {"form":form})   
  else:
-      form = AuthenticationForm()
+      form = loginUserForm()
       return render(request,"account/login.html",{"form":form})
 
 def user_register(request):
