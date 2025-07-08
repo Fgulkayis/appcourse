@@ -15,6 +15,6 @@ class loginUserForm(AuthenticationForm):
         messages.add_message(self.request,messages.SUCCESS,"hoş geldin admin ")
 
      return username
-  def confirm_login_allowed(slef,user):
-     if user.username.startswith("f"):
-        raise forms.ValidationError(" bu kullanıcı adı ile login olamazsınız")
+ # def confirm_login_allowed(slef,user):
+   #  if user.username.startswith("f"):
+    #    raise forms.ValidationError(" bu kullanıcı adı ile login olamazsınız")
