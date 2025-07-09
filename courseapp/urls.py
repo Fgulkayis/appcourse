@@ -24,7 +24,8 @@ urlpatterns = [
     path('',include('pages.urls') ), #pages uygulaması altındaki urls erişimi
     path('admin/', admin.site.urls),
     path('account/', include('account.urls')), 
-]  +static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+]  +static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT) \
+   +static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
 #client/ kullanıcı ile ilgili sayfalardır veya tırnak içine boş bir link bıraktığımızda uygulamaın anasayfasına gediğimizde coursesdaki url'ler çağırılıyor.
 
 #coursesapp  altında courses ve pages uygulamlarını barındırır
