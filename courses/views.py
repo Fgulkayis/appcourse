@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.shortcuts import get_object_or_404, redirect,render
 from courses.forms import CourseCreateForm, CourseEditForm, uploadForm
-from .models import Course,Category, uploadModel
+from .models import Course,Category, Slider, uploadModel
 from django.core.paginator import Paginator
 
 # Create your views here. 
@@ -82,12 +82,13 @@ def upload(request):
 def index(request):
     kurslar=Course.objects.filter(isActive=1,isHome=1)
     kategoriler=Category.objects.all()
+    sliders = Slider.objects.filter(is_active=True)
 
 
     return render(request,'courses/index.html',{
         'categories':kategoriler,
-        'courses':kurslar
-
+        'courses':kurslar,
+        'sliders':sliders
     })
 def details(request,slug):
     # try:
